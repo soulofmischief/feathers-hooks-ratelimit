@@ -6,6 +6,9 @@ module.exports = function(options = {}) {
   const messageLimiter = new FastRateLimit({ threshold, ttl });
 
   return async context => {
+    // Don't rate limit internal calls.
+    if(context.params.provider === null) return context
+
     let _namespace;
 
     if (namespace) {
